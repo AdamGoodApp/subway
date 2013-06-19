@@ -6,10 +6,13 @@ S =['Astor place','Union square','East 23rd','East 28th','East 33rd','Grand cent
 #----------  Helper Functions ----------#
 def gett() gets.chomp.downcase end
 
-def titlr(title) print ("-" * 10) + " #{title} " + ("-" * 10)  end
+def title(title) print ("-" * 20) + " #{title} " + ("-" * 20)  end
 
 def check_input(array, input)
-  p "That is not a valid station" if !(array.include? input)
+  if !(array.include? input)
+    p "That is not a valid station"; gets
+    exit
+  end
 end
 
 def print_stations(line)
@@ -43,8 +46,8 @@ end
 
 #----------  Application ----------#
 puts `clear`
-puts titlr('Subway Mappr')
-puts " I'm going to help you find your way! "
+puts title('Subway Mappr')
+puts " I'm going to help you find your way around the Big Apple! "
 
 print "\nWhich line are you on?  (L) (N) (6)  "
 line1 = assign_train(gett)
@@ -66,17 +69,18 @@ stop = gett.capitalize
 check_input(line2, stop)
 
 puts `clear`
-print ("-" * 10) + " Your directions " + ("-" * 10)
+title('Your Directions')
 
+index = 0
 if line1 == line2
   d = line2.index(stop) - line1.index(start)
-  p "You have to travel #{d} stops on this train to #{stop}."
+  puts "You have to travel #{d} stops on this train to #{stop}."
 else
   d = distance( line1.index(start), line1.index('Union square') )
   d2 = distance( line2.index(stop), line2.index('Union square') )
-  puts "\n(1) Travel #{plural(d)} to Union Square."
-  puts "(2) Transfer to the #{get_train(line2)} line."
-  puts "(3) Take it #{plural(d2)} to #{stop}.\n"
+  print "\n (#{index+=1}) Travel #{plural(d)} to Union square." if d > 1
+  print "\n (#{index+=1}) Transfer to the #{get_train(line2)} line."
+  print "\n (#{index+=1}) Take it #{plural(d2)} to #{stop}.\n"
 end
 
 puts "\nHave a pleasant trip!"

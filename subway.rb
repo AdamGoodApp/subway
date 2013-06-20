@@ -29,6 +29,9 @@ def assign_train(line)
   when 'l' then L
   when 'n' then N
   when '6' then S
+  else
+    p "Sorry, that train does not exist."; gets
+    exit
  end
 end
 
@@ -44,9 +47,23 @@ def plural(line)
    line > 1 ? "#{line} stops" : "#{line} stop"
 end
 
+def direction(stop, line)
+  case line
+   when L then line.index(stop) > line.index('Union square') ? 'eastbound' : 'westbound'
+   when N then line.index(stop) > line.index('Union square') ? 'northbound' : 'southbound'
+   when S then line.index(stop) > line.index('Union square') ? 'northbound' : 'southbound'
+  end
+end
+
 #----------  Application ----------#
 puts `clear`
 puts title('Subway Mappr')
+puts '     ========================================================='
+puts '    /__|     OOOOOOOOOOOOO        | [  ] | [  ] |      [_]  [_] \ '
+puts '  /             NY MTA           | [  ] | [  ] |                 \ '
+puts '  \________________________________|___ |___ |_____________________\ '
+puts '    ()==()    === ++++ ===   ()==()       ()==()     +++   ++++++++ '
+puts '============================================ '
 puts " I'm going to help you find your way around the Big Apple! "
 
 print "\nWhich line are you on?  (L) (N) (6)  "
@@ -78,8 +95,8 @@ if line1 == line2
 else
   d = distance( line1.index(start), line1.index('Union square') )
   d2 = distance( line2.index(stop), line2.index('Union square') )
-  print "\n (#{index+=1}) Travel #{plural(d)} to Union square." if d > 1
-  print "\n (#{index+=1}) Transfer to the #{get_train(line2)} line."
+  print "\n (#{index+=1}) Travel #{plural(d)} to Union square." if d >= 1
+  print "\n (#{index+=1}) Transfer to the #{get_train(line2)} line traveling #{direction(stop,line2)}."
   print "\n (#{index+=1}) Take it #{plural(d2)} to #{stop}.\n"
 end
 
